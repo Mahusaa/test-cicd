@@ -49,8 +49,7 @@ jobs:
 
             # Pull the latest changes from the GitHub repo
             git pull
-            export FNM_PATH="/home/mahusa/.local/share/fnm"
-            eval "$(fnm env)"
+            eval "$(~/.local/share/fnm/fnm env)"
             
 
 
