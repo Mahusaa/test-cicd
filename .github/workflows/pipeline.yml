@@ -41,8 +41,6 @@ jobs:
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           port: 22  # Adjust if your VPS uses a different SSH port
           script: |
-            # Install pnpm globally on the VPS (if not already installed)
-            npm install -g pnpm
 
             # Navigate to the app directory on the VPS
             cd /my-app/test-cicd
