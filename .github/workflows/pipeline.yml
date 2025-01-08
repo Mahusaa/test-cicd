@@ -54,7 +54,7 @@ jobs:
 
 
             # Install dependencies and build the app
-            pnpm install --production
+            pnpm install
             pnpm run build
             # Copy necessary static files
             cp -r public .next/standalone/
