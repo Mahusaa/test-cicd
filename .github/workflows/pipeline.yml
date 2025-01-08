@@ -20,14 +20,17 @@ jobs:
         with:
           node-version: '18'  # Adjust the version to match your app's requirements
 
-      # Step 3: Install dependencies
+      # Step 3: Install pnpm
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # Step 4: Install dependencies
       - name: Install dependencies
         run: pnpm install
 
-      # Step 4: Build the application
+      # Step 5: Build the application
       - name: Build Next.js app
         run: pnpm run build
-
 
       # Step 6: Deploy to VPS via SSH
       - name: Deploy to VPS
@@ -38,6 +41,9 @@ jobs:
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           port: 22  # Adjust if your VPS uses a different SSH port
           script: |
+            # Install pnpm globally on the VPS (if not already installed)
+            npm install -g pnpm
+
             # Navigate to the app directory on the VPS
             cd /my-app/test-cicd
 
@@ -52,3 +58,4 @@ jobs:
 
             # Restart the app using PM2
             pm2 restart nextjs-app || pm2 start .next/standalone/server.js --name "nextjs-app"
+
