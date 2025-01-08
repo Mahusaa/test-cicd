@@ -1,0 +1,54 @@
+name: CI/CD Pipeline for Next.js Deployment on VPS
+
+on:
+  push:
+    branches:
+      - main  # Run this workflow whenever changes are pushed to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04  # Use Ubuntu 22.04 as the GitHub Actions runner
+
+    steps:
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Adjust the version to match your app's requirements
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: pnpm install
+
+      # Step 4: Build the application
+      - name: Build Next.js app
+        run: pnpm run build
+
+
+      # Step 6: Deploy to VPS via SSH
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_PRIVATE_KEY }}
+          port: 22  # Adjust if your VPS uses a different SSH port
+          script: |
+            # Navigate to the app directory on the VPS
+            cd /my-app/test-cicd
+
+            # Pull the latest changes from the GitHub repo
+            git pull origin main
+
+            # Install dependencies and build the app
+            pnpm install --production
+            pnpm run build
+            cp -r .next .next/standalone/
+            cp -r .next/static .next/standalone/.next/
+
+            # Restart the app using PM2
+            pm2 restart nextjs-app || pm2 start .next/standalone/server.js --name "nextjs-app"
