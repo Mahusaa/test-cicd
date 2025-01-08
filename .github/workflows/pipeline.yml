@@ -48,7 +48,9 @@ jobs:
             
 
             # Pull the latest changes from the GitHub repo
-            git pull origin main
+            git pull
+            export FNM_PATH="/home/mahusa/.local/share/fnm"
+            source ~/.fnm/fnm.sh
             
 
 
