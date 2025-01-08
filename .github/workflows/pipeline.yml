@@ -43,18 +43,13 @@ jobs:
           script: |
 
             # Navigate to the app directory on the VPS
-            export PATH=$PATH:$(npm bin -g)
-             if ! command -v pnpm &> /dev/null; then
-            npm install -g pnpm
-            fi
-            if ! command -v pm2 &> /dev/null; then
-              npm install -g pm2
-            fi
             cd my-app/test-cicd
             
 
             # Pull the latest changes from the GitHub repo
             git pull origin main
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh 
 
             # Install dependencies and build the app
             pnpm install --production
