@@ -44,13 +44,12 @@ jobs:
 
 
             # Navigate to the app directory on the VPS
-            cd my-app/test-cicd
+             cd ~/my-app/test-cicd
             
 
             # Pull the latest changes from the GitHub repo
             git pull origin main
-            export PATH=$HOME/.fnm:$PATH
-            eval "$(fnm env)"
+            
 
 
             # Install dependencies and build the app
