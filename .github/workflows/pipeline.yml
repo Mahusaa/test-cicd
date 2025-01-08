@@ -43,7 +43,7 @@ jobs:
           script: |
 
             # Navigate to the app directory on the VPS
-            cd /my-app/test-cicd
+            cd my-app/test-cicd
 
             # Pull the latest changes from the GitHub repo
             git pull origin main
