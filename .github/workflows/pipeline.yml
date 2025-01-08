@@ -41,6 +41,8 @@ jobs:
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           port: 22  # Adjust if your VPS uses a different SSH port
           script: |
+            export PATH=$HOME/.fnm:$PATH
+            eval "$(fnm env)"
 
             # Navigate to the app directory on the VPS
             cd my-app/test-cicd
@@ -48,8 +50,7 @@ jobs:
 
             # Pull the latest changes from the GitHub repo
             git pull origin main
-            export NVM_DIR=~/.nvm
-            source ~/.nvm/nvm.sh 
+
 
             # Install dependencies and build the app
             pnpm install --production
